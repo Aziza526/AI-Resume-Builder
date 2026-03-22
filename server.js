@@ -1,11 +1,16 @@
 const express = require("express");
-const bodyParser = require("body-parser");
 const cors = require("cors");
 const path = require("path");
+const app = express();
+const PORT = process.env.PORT || 3000;
+const rateLimit = require("express-rate-limit");
 require("dotenv").config();
 
-const app = express();
-const PORT = 3000;
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 10, // max 10 requests per 15 minutes per IP
+  message: { error: "Too many requests, please try again later." },
+});
 
 // OpenAI setup
 const OpenAI = require("openai");
@@ -16,13 +21,36 @@ const openai = new OpenAI({
 
 // Middleware
 app.use(cors());
-app.use(bodyParser.json());
+app.use(express.json());
 app.use(express.static(path.join(__dirname, "public"))); // serve only public folder
 
+// Input validation helper
+function validateInputs({
+  fullName,
+  email,
+  education,
+  workExperience,
+  skills,
+}) {
+  if (!fullName || !email || !education || !workExperience || !skills) {
+    return "All fields are required.";
+  }
+  if (fullName.length > 100) return "Name is too long.";
+  if (email.length > 100) return "Email is too long.";
+  if (education.length > 500) return "Education is too long.";
+  if (workExperience.length > 1000) return "Work experience is too long.";
+  if (skills.length > 500) return "Skills is too long.";
+  return null; // null means all inputs are valid
+}
+
 // AI Improve endpoint
-app.post("/api/ai-improve", async (req, res) => {
+app.post("/api/ai-improve", limiter, async (req, res) => {
+  const validationError = validateInputs(req.body);
+  if (validationError) {
+    return res.status(400).json({ error: validationError });
+  }
   try {
-    const { name, email, education, workExperience, skills } = req.body;
+    const { fullName, email, education, workExperience, skills } = req.body;
 
     // Instruction for ChatGPT
     const prompt = `
@@ -39,13 +67,13 @@ Use only semantic HTML and the following class names EXACTLY where appropriate:
   - skills-list
   - skill-item
 
-Fill in missing fields, make the language professional and concise. Output only the HTML fragment.
+Fill in missing fields, make the language professional and concise. Output only the HTML fragment. Don't change name and email address.
 Resume data:
-Name: ${name || ""}
-Email: ${email || ""}
-Education: ${education || ""}
-Work Experience: ${workExperience || ""}
-Skills: ${skills || ""}
+Name: ${fullName}
+Email: ${email}
+Education: ${education}
+Work Experience: ${workExperience}
+Skills: ${skills}
 
       `;
 

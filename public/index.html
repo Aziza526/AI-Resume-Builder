@@ -1,47 +1,46 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="newPr.css" />
+    <title>Ai Resume Builder</title>
+    <link rel="stylesheet" href="AIResumeBuilder.css" />
   </head>
   <body>
-    <h1 style="text-align: center">Resume Builder</h1>
+    <h1>Resume Builder</h1>
 
     <form id="resumeForm" class="option1">
       <!-- Name -->
       <label for="name">Full Name</label>
-      <input type="text" id="name" /> <br /><br />
+      <input type="text" id="name" required />
 
       <!-- Email -->
       <label for="email">Email address</label>
-      <input type="text" id="email" /> <br /><br />
+      <input type="email" id="email" required />
 
       <!-- Education -->
       <label for="education">Education</label>
-      <input type="text" id="education" /> <br /><br />
+      <input type="text" id="education" required />
 
       <!-- Work Experience -->
       <label for="workExperience">Work Experience</label>
-      <input type="text" id="workExperience" /> <br /><br />
+      <input type="text" id="workExperience" required />
 
       <!-- Skills -->
       <label for="skills">Skills</label>
-      <input type="text" id="skills" /> <br /><br />
+      <input type="text" id="skills" required />
 
       <button type="submit">Build Resume</button>
+
+      <label for="design">Choose a design</label>
+      <select id="design">
+        <option value="option1">Classic White</option>
+        <option value="option2">Classic White Blue</option>
+      </select>
+      <button type="button" id="downloadBtn">Download as PDF</button>
     </form>
-
-    <label for="design">Choose a design</label>
-    <select id="design">
-      <option value="option1">Classic White</option>
-      <option value="option2">Classic White Blue</option>
-    </select>
-    <button type="button" id="downloadBtn">Download as PDF</button>
     <div id="resume" style="display: none"></div>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <script src="newProgram.js"></script>
+    <script src="AIResumeBuilder.js"></script>
   </body>
 </html>

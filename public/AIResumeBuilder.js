@@ -1,24 +1,29 @@
-let name, email, education, workExperience, skills;
-
-const resumeDiv = document.getElementById("resume");
+function escapeHTML(str) {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
 
 document.getElementById("resumeForm").addEventListener("submit", function (e) {
   e.preventDefault();
 
   // Get form values
-  name = document.getElementById("name").value;
-  email = document.getElementById("email").value;
-  education = document.getElementById("education").value;
-  workExperience = document.getElementById("workExperience").value;
-  skills = document.getElementById("skills").value;
+  const fullName = document.getElementById("name").value;
+  const email = document.getElementById("email").value;
+  const education = document.getElementById("education").value;
+  const workExperience = document.getElementById("workExperience").value;
+  const skills = document.getElementById("skills").value;
 
   // Build resume HTML
   const resumeContent = `
-    <h1>${name}</h1>
-    <p><strong>Email: </strong>${email}</p>
-    <p><strong>Education: </strong>${education}</p>
-    <p><strong>Work Experience: </strong>${workExperience}</p>
-    <p><strong>Skills: </strong>${skills}</p>
+    <h1>${escapeHTML(fullName)}</h1>
+    <p><strong>Email: </strong>${escapeHTML(email)}</p>
+    <p><strong>Education: </strong>${escapeHTML(education)}</p>
+    <p><strong>Work Experience: </strong>${escapeHTML(workExperience)}</p>
+    <p><strong>Skills: </strong>${escapeHTML(skills)}</p>
   `;
 
   const designClass = document.getElementById("design").value;
@@ -28,8 +33,8 @@ document.getElementById("resumeForm").addEventListener("submit", function (e) {
   newWindow.document.write(`
     <html>
       <head>
-        <title>Resume - ${name}</title>
-        <link rel="stylesheet" href="newPr.css">
+        <title>Resume - ${fullName}</title>
+        <link rel="stylesheet" href="AIResumeBuilder.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"><\/script>
       </head>
       <body>
@@ -56,7 +61,7 @@ document.getElementById("resumeForm").addEventListener("submit", function (e) {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              name: name,
+              fullName: fullName,
               email: email,
               education: education,
               workExperience: workExperience,

@@ -3,6 +3,9 @@ body {
   margin: 20px;
   background-color: #f4f4f4;
 }
+h1 {
+  text-align: center;
+}
 form {
   background-color: white;
   padding: 50px;
@@ -12,21 +15,38 @@ form {
   box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
 }
 label {
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+  display: block;
+  margin-top: 16px;
+  font-family:
+    "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
   font-weight: bold;
 }
 input,
-textarea {
+textarea,
+select {
+  margin-top: 4px;
+  margin-bottom: 8px;
   background-color: #abaac9;
   color: white;
   padding: 10px;
   border: none;
-  margin-top: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  cursor: text;
+}
+button {
+  margin-top: 16px;
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
   cursor: pointer;
+  width: 100%;
 }
 button:hover {
-  background-color: #45a049;
+  background-color: blue;
 }
 div.option1 {
   background-color: #ffffff;
