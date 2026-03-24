@@ -30,6 +30,5 @@ A full-stack web app that generates a professional resume from your information 
 - API endpoint is rate limited to 10 requests per 15 minutes
 - API key is stored securely in environment variables and never exposed to the frontend
 
-## License
 
 MIT
